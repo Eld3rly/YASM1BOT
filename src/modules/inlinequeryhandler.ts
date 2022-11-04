@@ -12,10 +12,10 @@ const CheckAccess = async (userId: any) => {
 export default (bot: Telegraf) => {
     bot.on("inline_query", async (ctx) => {
 
-        if(!CheckAccess(ctx.inlineQuery.from.id)) return; // user is not allowed to use inline queries
+        if(!CheckAccess(ctx.inlineQuery.from.id)) return ctx.answerInlineQuery([]); // user is not allowed to use inline queries
 
         const args = ctx.inlineQuery.query.split(" ");
-        if(args.length < 2) return; // User didn't provide enough arguments
+        if(args.length < 2) return ctx.answerInlineQuery([]);
 
         ctx.answerInlineQuery([{
             type: "article",
@@ -37,7 +37,7 @@ export default (bot: Telegraf) => {
                     }]
                 ]
             }
-        }],{cache_time: 0,is_personal: true});
+        }]);
     });
 
     bot.on("chosen_inline_result", async (ctx) => {
