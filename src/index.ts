@@ -7,9 +7,6 @@ import CM from "./modules/cachemanager.js";
 
 import Initalize from "./modules/botinitializer.js";
 
-process.on("unhandledRejection", (err) => Logs.Error(`Unhandled rejection: ${err}`));
-process.on("uncaughtException", (err) => Logs.Error(`Uncaught exception: ${err}`));
-
 console.clear();
 Logs.Info("YASM | Yet Another Secret Message");
 Logs.Info("Telegram bot");
@@ -36,3 +33,12 @@ const BeforeExit = async () => {
 
 process.on("SIGINT", BeforeExit);
 process.on("SIGTERM", BeforeExit);
+
+process.on('uncaughtException', (err) => {
+    Logs.Error(`Uncaught exception: ${err}`);
+    BeforeExit();
+});
+process.on('unhandledRejection', (err) => {
+    Logs.Error(`Unhandled rejection: ${err}`);
+    BeforeExit();
+});
